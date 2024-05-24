@@ -5,7 +5,33 @@ import { FaEyeSlash } from "react-icons/fa"
 import { Link } from 'react-router-dom'
 const Login = () => {
     const [showPassword,setShowPassword] = useState(false)
-  
+    const [data,setData] = useState({
+
+      email:'',
+      password:''
+    })
+      
+    const handleOnChange =(e)=>{
+      const { name , value } = e.target
+      setData((preve)=>{
+        return{
+          ...preve,
+          [name]: value
+
+
+        }
+      
+      } )
+    } 
+    const handleSubmit =(e)=>{
+       e.preventDefault()
+      
+    }
+    
+    console.log("data login",data)
+
+
+
   return (
     
           <section id= 'login'>
@@ -17,17 +43,27 @@ const Login = () => {
                                   <img src={loginIcons} alt='login icons'/>
                                 </div>
                                   
-                                  <form className='bg-white p-2 py-5 w-full max-w-sf mx-auto '>
+                                  <form className='bg-white p-2 py-5 w-full max-w-sf mx-auto '  onSubmit={handleSubmit}>
                                    <div className='grid'>
                                        <lable>Eamil : </lable>                                 
                                        <div className='bg-slate-200 p-2'> 
-                                        <input type='Email' placeholder='enter email 'className='w-full h-full outline-none bg-transparent '/> 
+                                        <input type='Email' 
+                                        placeholder='enter email '
+                                         name='email' 
+                                         value={data.email}
+                                         onChange={handleOnChange} 
+                                         className='w-full h-full outline-none bg-transparent '/> 
                                         </div>                                  
                                     </div>
                                     <div>
                                        <lable>Password : </lable>                                 
                                        <div className='bg-slate-200 p-2 flex' > 
-                                        <input type= {showPassword ? "text":"password"} placeholder='enter password ' className='w-full h-full outline-none bg-transparent'/>  
+                                        <input type= {showPassword ? "text":"password"}
+                                         placeholder='enter password ' 
+                                         value={data.password}
+                                          name='password'
+                                          onChange={handleOnChange} 
+                                         className='w-full h-full outline-none bg-transparent'/>  
                                          <div className='cursor-pointer text-xl' onClick={()=>setShowPassword((preve)=>!preve)}>
                                           <spam>
                                             {
