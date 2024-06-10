@@ -43,7 +43,7 @@ const Login = () => {
                                   <img src={loginIcons} alt='login icons'/>
                                 </div>
                                   
-                                  <form className='bg-white p-2 py-5 w-full max-w-sf mx-auto '  onSubmit={handleSubmit}>
+                                  <form className='pt-6 flex flex-col gap-2'  onSubmit={handleSubmit}>
                                    <div className='grid'>
                                        <lable>Eamil : </lable>                                 
                                        <div className='bg-slate-200 p-2'> 
