@@ -3,6 +3,7 @@ import loginIcons from '../assest/signin.gif'
 import { FaEye } from "react-icons/fa"
 import { FaEyeSlash } from "react-icons/fa"
 import { Link } from 'react-router-dom'
+import imageTobase64 from '../helpers/imageTobase64'
 const SingUp = () => {
   const [showPassword,setShowPassword] = useState(false)
   const [showConfirmPassword,setShowConfirmPassword] = useState(false)
@@ -27,12 +28,21 @@ const SingUp = () => {
       
       } )
     } 
-const handleUploadPic=(e)=>{
+const handleUploadPic=async (e)=>{
   const file = e.target.files[0]
-  
-  console.log("file", file)
+   const imagePic = await imageTobase64(file)
 
-}
+  setData((preve)=>{
+return{
+  ...preve,
+      profilepic: imagePic
+    
+  }
+   })
+  }
+
+
+
 
     const handleSubmit =(e)=>{
        e.preventDefault()
@@ -49,7 +59,7 @@ const handleUploadPic=(e)=>{
                   
                   <div className='w-20 h-20 mx-auto relative overflow-hidden rounded-full'>
                        <div>
-                       <img src={loginIcons} alt='login icons'/>
+                       <img src={data.profilepic || loginIcons} alt='login icons'/>
                        </div>
                        <form> 
                         <label>
@@ -72,6 +82,7 @@ const handleUploadPic=(e)=>{
                            name='name' 
                            value={data.name}
                            onChange={handleOnChange} 
+                           required 
                            className='w-full h-full outline-none bg-transparent '/> 
                           </div>                                  
                       </div>
@@ -86,6 +97,7 @@ const handleUploadPic=(e)=>{
                            name='email' 
                            value={data.email}
                            onChange={handleOnChange} 
+                           required 
                            className='w-full h-full outline-none bg-transparent '/> 
                           </div>                                  
                       </div>
@@ -98,6 +110,7 @@ const handleUploadPic=(e)=>{
                            value={data.password}
                             name='password'
                             onChange={handleOnChange} 
+                            required 
                            className='w-full h-full outline-none bg-transparent'/>  
                            <div className='cursor-pointer text-xl' onClick={()=>setShowPassword((preve)=>!preve)}>
                             <spam>
@@ -132,6 +145,7 @@ const handleUploadPic=(e)=>{
                            value={data.confirmPassword}
                             name='confirmPassword'
                             onChange={handleOnChange} 
+                            required 
                            className='w-full h-full outline-none bg-transparent'/>  
                            <div className='cursor-pointer text-xl' onClick={()=>setShowConfirmPassword((preve)=>!preve)}>
                             <spam>
@@ -161,7 +175,7 @@ const handleUploadPic=(e)=>{
 
 
 
-
+ 
                      
                       <button className='bg-red-600 text-white hover:bg-red-400 px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6'>Sing Up</button>
 
