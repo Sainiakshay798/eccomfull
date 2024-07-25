@@ -2,19 +2,22 @@ import React, { useState } from 'react'
 import loginIcons from '../assest/signin.gif'
 import { FaEye } from "react-icons/fa"
 import { FaEyeSlash } from "react-icons/fa"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import imageTobase64 from '../helpers/imageTobase64'
+import SummaryApi from '../common'
+import { toast } from 'react-toastify'
 const SingUp = () => {
   const [showPassword,setShowPassword] = useState(false)
   const [showConfirmPassword,setShowConfirmPassword] = useState(false)
     const [data,setData] = useState({
 
-      email:"",
+      email: "",
       password:"",
       name : "",
       confirmPassword:"",
-      profilepic : ""
+      profilepic : "",
     })
+    const navigate = useNavigate()
       
     const handleOnChange =(e)=>{
       const { name , value } = e.target
@@ -28,7 +31,7 @@ const SingUp = () => {
       
       } )
     } 
-const handleUploadPic=async (e)=>{
+const handleUploadPic = async (e)=>{
   const file = e.target.files[0]
    const imagePic = await imageTobase64(file)
 
@@ -40,19 +43,44 @@ return{
   }
    })
   }
-
-
-
-
-    const handleSubmit =(e)=>{
+    const handleSubmit = async (e)=>{
        e.preventDefault()
+       if(data.password === data.confirmPassword){
+        const dataResponse = await fetch(SummaryApi.signUP.url,{
+          method : SummaryApi.signUP.method,
+          headers : {
+             "Content-Type": "application/json"
+            },
+            body : JSON.stringify(data)
+         })
+         const dataApi = await dataResponse.json()
+          //toast
+          if(dataApi.success){
+            toast.success(dataApi.message)
+            navigate("/login")
+           }
+
+         if(dataApi.error){
+          toast.error(dataApi.message)
+         }
+
+        //  toast(dataApi.message)
+         //toast
+         console.log("data",dataApi)
+
+             
+       } else {
+        console.log(" please provide a valid password ")
+       }
+
+      
       
     }
     
-    console.log("data login",data)
+  
 
   return (
-    <section id= 'signup'>
+    <section id= 'signUP'>
     <div className='mx-auto container p-4'>
       
             <div className='bg-white p-5 w-full max-w-md mx-auto'>
@@ -184,6 +212,8 @@ return{
                     <p className='my-5'>already  have account ? <Link to={"/login"} className='text-red-600 hover:text-red-700 hover:underline' >Login</Link></p>                               
                    
             </div>
+
+
 
 
 
